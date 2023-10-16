@@ -8,7 +8,7 @@ const ChatOpenAI = require("langchain/chat_models/openai").ChatOpenAI;
 // const Document = require("langchain/document").Document;
 
 exports.handler = async (event) => {
-  console.log('queryVideo v0.0.3')
+  console.log('queryVideo v0.0.4')
   // console.log('heres the event!: ', event);
 
   let youtubeURL = event.youtubeURL;
