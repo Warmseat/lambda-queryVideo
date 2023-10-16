@@ -8,44 +8,39 @@ const ChatOpenAI = require("langchain/chat_models/openai").ChatOpenAI;
 // const Document = require("langchain/document").Document;
 
 exports.handler = async (event) => {
-  console.log('queryVideo v0.0.5')
+  console.log('queryVideo v0.0.65')
   // console.log('heres the event!: ', event);
 
   let youtubeURL = event.youtubeURL;
   let userQuery = event.query;
-
   
-  try {
-    const loader = YoutubeLoader.createFromUrl(youtubeURL, {
-    language: "en",
-    addVideoInfo: false,
-    });
-  } catch (error) {
-    console.log('major error: ', error);
-  }
+  const loader = YoutubeLoader.createFromUrl(youtubeURL, {
+  language: "en",
+  addVideoInfo: false,
+  });
 
-// // Load the data  
-const data = await loader.load();
+  // // Load the data  
+  const data = await loader.load();
 
-const textSplitter = new RecursiveCharacterTextSplitter({
-  chunkSize: 500,
-  chunkOverlap: 100,
-});
+  const textSplitter = new RecursiveCharacterTextSplitter({
+    chunkSize: 500,
+    chunkOverlap: 100,
+  });
 
-// Split the the data into chunks
-const splitDocs = await textSplitter.splitDocuments(data);
+  // Split the the data into chunks
+  const splitDocs = await textSplitter.splitDocuments(data);
 
-const vectorStore = await FaissStore.fromDocuments(
-  splitDocs,
-  new OpenAIEmbeddings()
-);
+  const vectorStore = await FaissStore.fromDocuments(
+    splitDocs,
+    new OpenAIEmbeddings()
+  );
 
-const model = new ChatOpenAI({ modelName: "gpt-3.5-turbo" });
-const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
+  const model = new ChatOpenAI({ modelName: "gpt-3.5-turbo" });
+  const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
 
-const queryResponse = await chain.call({
-  query: userQuery,
-});
+  const queryResponse = await chain.call({
+    query: userQuery,
+  });
 
 
 
