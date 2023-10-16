@@ -8,16 +8,21 @@ const ChatOpenAI = require("langchain/chat_models/openai").ChatOpenAI;
 // const Document = require("langchain/document").Document;
 
 exports.handler = async (event) => {
-  console.log('queryVideo v0.0.4')
+  console.log('queryVideo v0.0.5')
   // console.log('heres the event!: ', event);
 
   let youtubeURL = event.youtubeURL;
   let userQuery = event.query;
 
-  const loader = YoutubeLoader.createFromUrl(youtubeURL, {
-  language: "en",
-  addVideoInfo: false,
-});
+  
+  try {
+    const loader = YoutubeLoader.createFromUrl(youtubeURL, {
+    language: "en",
+    addVideoInfo: false,
+    });
+  } catch (error) {
+    console.log('major error: ', error);
+  }
 
 // // Load the data  
 const data = await loader.load();
