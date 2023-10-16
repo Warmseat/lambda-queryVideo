@@ -10,6 +10,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "faiss-node": "^0.3.0",
     "langchain": "^0.0.167",
     "youtube-transcript": "^1.0.6",
     "youtubei.js": "^5.8.0"
