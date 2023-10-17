@@ -8,7 +8,7 @@ const MemoryVectorStore = require("langchain/vectorstores/memory").MemoryVectorS
 // const Document = require("langchain/document").Document;
 
 
-const versionNumber = 'v0.0.7';
+const versionNumber = 'v0.0.71';
 exports.handler = async (event) => {
   console.log('queryVideo: ', versionNumber);
   // console.log('heres the event!: ', event);
@@ -16,6 +16,8 @@ exports.handler = async (event) => {
   let youtubeURL = event.youtubeURL;
   let userQuery = event.query;
   
+  // test idea: if the youtube video does not support transcript, then return a message saying so
+  // try catch block begin
   const loader = YoutubeLoader.createFromUrl(youtubeURL, {
   language: "en",
   addVideoInfo: false,
@@ -45,13 +47,21 @@ exports.handler = async (event) => {
   });
 
   console.log('heres the response: ', queryResponse.text);
+  // statuscode: 200
+  // try block finishes here
+  // catch block here
+  // error
+  // statuscode: 400
+  // answer: 'Sorry, this video does not support transcript. Please try another video.'
+  // body: JSON.stringify('Sorry, this video does not support transcript. Please try another video.'),
 
   const response = {
     statusCode: 200,
 
-    body: JSON.stringify('Answer ', queryResponse),
+    // body: JSON.stringify('Answer ', queryResponse),
+    body: queryResponse.text,
     version: versionNumber,
-    answer: queryResponse.text
+    // answer: queryResponse.text
     // body: JSON.stringify('URL: ' + youtubeURL + '. Query: ' + userQuery),
   };
   return response;
