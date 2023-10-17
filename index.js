@@ -8,7 +8,7 @@ const MemoryVectorStore = require("langchain/vectorstores/memory").MemoryVectorS
 // const Document = require("langchain/document").Document;
 
 exports.handler = async (event) => {
-  console.log('queryVideo v0.0.66')
+  console.log('queryVideo v0.0.67')
   // console.log('heres the event!: ', event);
 
   let youtubeURL = event.youtubeURL;
@@ -42,7 +42,7 @@ exports.handler = async (event) => {
     query: userQuery,
   });
 
-
+  console.log('heres the response: ', queryResponse);
 
   const response = {
     statusCode: 200,
