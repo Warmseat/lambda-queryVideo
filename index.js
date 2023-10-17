@@ -7,8 +7,10 @@ const ChatOpenAI = require("langchain/chat_models/openai").ChatOpenAI;
 const MemoryVectorStore = require("langchain/vectorstores/memory").MemoryVectorStore;
 // const Document = require("langchain/document").Document;
 
+
+const versionNumber = 'v0.0.7';
 exports.handler = async (event) => {
-  console.log('queryVideo v0.0.67')
+  console.log('queryVideo: ', versionNumber);
   // console.log('heres the event!: ', event);
 
   let youtubeURL = event.youtubeURL;
@@ -42,11 +44,14 @@ exports.handler = async (event) => {
     query: userQuery,
   });
 
-  console.log('heres the response: ', queryResponse);
+  console.log('heres the response: ', queryResponse.text);
 
   const response = {
     statusCode: 200,
+
     body: JSON.stringify('Answer ', queryResponse),
+    version: versionNumber,
+    answer: queryResponse.text
     // body: JSON.stringify('URL: ' + youtubeURL + '. Query: ' + userQuery),
   };
   return response;
