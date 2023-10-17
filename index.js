@@ -1,14 +1,14 @@
 const YoutubeLoader = require("langchain/document_loaders/web/youtube").YoutubeLoader;
-const FaissStore = require("langchain/vectorstores/faiss").FaissStore;
+// const FaissStore = require("langchain/vectorstores/faiss").FaissStore;
 const OpenAIEmbeddings = require("langchain/embeddings/openai").OpenAIEmbeddings;
 const RecursiveCharacterTextSplitter = require("langchain/text_splitter").RecursiveCharacterTextSplitter;
 const RetrievalQAChain = require("langchain/chains").RetrievalQAChain;
 const ChatOpenAI = require("langchain/chat_models/openai").ChatOpenAI;
-// const MemoryVectorStore = require("langchain/vectorstores/memory").MemoryVectorStore;
+const MemoryVectorStore = require("langchain/vectorstores/memory").MemoryVectorStore;
 // const Document = require("langchain/document").Document;
 
 exports.handler = async (event) => {
-  console.log('queryVideo v0.0.65')
+  console.log('queryVideo v0.0.66')
   // console.log('heres the event!: ', event);
 
   let youtubeURL = event.youtubeURL;
@@ -30,7 +30,7 @@ exports.handler = async (event) => {
   // Split the the data into chunks
   const splitDocs = await textSplitter.splitDocuments(data);
 
-  const vectorStore = await FaissStore.fromDocuments(
+  const vectorStore = await MemoryVectorStore.fromDocuments(
     splitDocs,
     new OpenAIEmbeddings()
   );
