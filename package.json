@@ -4,15 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --verbose --coverage"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^16.3.1",
     "faiss-node": "^0.3.0",
     "langchain": "^0.0.167",
     "youtube-transcript": "^1.0.6",
     "youtubei.js": "^5.8.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.10"
   }
 }
